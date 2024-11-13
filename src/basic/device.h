@@ -1,5 +1,5 @@
-#ifndef TINITORCH_BASIC_DEVICE_H_
-#define TINITORCH_BASIC_DEVICE_H_
+#ifndef TINYTORCH_BASIC_DEVICE_H_
+#define TINYTORCH_BASIC_DEVICE_H_
 
 #include <string>
 
@@ -48,4 +48,4 @@ public:
 
 }
 
-#endif  // TINITORCH_BASIC_DEVICE_H_
+#endif  // TINYTORCH_BASIC_DEVICE_H_

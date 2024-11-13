@@ -1,11 +1,13 @@
-#include "device.h"
+#include "basic/device.h"
+
+#include <string>
 
 #include <cuda_runtime.h>
 
 namespace TinyTorch {
 
 Device::Device(device_type_t type)
-    : type(type) {}
+        : type(type) {}
 
 std::string Device::to_string() const {
     if (type == device_type_t::CPU) {
