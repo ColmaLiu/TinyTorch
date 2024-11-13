@@ -6,7 +6,7 @@
 #include <cuda_runtime.h>
 
 #include "basic/device.h"
-#include "basic/mem.h"
+#include "basic/mem.cuh"
 
 namespace TinyTorch {
 

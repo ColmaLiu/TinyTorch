@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include <cuda_runtime.h>
-
 namespace TinyTorch {
 
 enum class device_type_t {
@@ -17,7 +15,6 @@ public:
     Device(device_type_t type);
 
     std::string to_string() const;
-    std::string repr() const;
 
     inline bool is_cpu() const {
         return type == device_type_t::CPU;

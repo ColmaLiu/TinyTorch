@@ -1,4 +1,4 @@
-#include "basic/mem.h"
+#include "basic/mem.cuh"
 
 #include <cstddef>
 

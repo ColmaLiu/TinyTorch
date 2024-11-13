@@ -2,8 +2,6 @@
 
 #include <string>
 
-#include <cuda_runtime.h>
-
 namespace TinyTorch {
 
 Device::Device(device_type_t type)
@@ -17,10 +15,6 @@ std::string Device::to_string() const {
     } else {
         exit(1);
     }
-}
-
-std::string Device::repr() const {
-
 }
 
 Device Device::default_device = Device::cpu();
