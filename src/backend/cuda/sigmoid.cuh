@@ -5,7 +5,7 @@ namespace TinyTorch::Backend::CUDA {
 
 void sigmoid_forward(float* in, float* out, int n);
 
-void sigmoid_backward(float *grad_out, float *in, float *grad_in, int n);
+void sigmoid_backward(float *grad_out, float *out, float *grad_in, int n);
 
 }
 

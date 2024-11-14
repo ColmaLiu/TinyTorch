@@ -72,7 +72,7 @@ void col2im(float *im, const int channels, const int height, const int width, co
 }
 
 // output(m, ) = input(m, n)[range(m), index(m, )]
-void take_slice(float *input, float *index, float *output, int m, int n);
+void take_slice(const float *input, const float *index, float *output, const int m, const int n);
 
 // x(m, n)[range(m), index(m, )] -= 1
 void slice_sub1(float *x, const float *index, const int m, const int n);

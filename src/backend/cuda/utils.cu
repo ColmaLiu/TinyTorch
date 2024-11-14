@@ -130,7 +130,7 @@ __global__ void take_slice_kernel(const float *input, const float *index, float 
 }
 
 // output(m, ) = input(m, n)[range(m), index(m, )]
-void take_slice(float *input, float *index, float *output, int m, int n) {
+void take_slice(const float *input, const float *index, float *output, const int m, const int n) {
     take_slice_kernel<<<CudaGetBlocks(m), kCudaThreadsNum>>>(input, index, output, m, n);
 }
 

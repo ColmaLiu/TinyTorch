@@ -6,13 +6,13 @@
 
 namespace TinyTorch::Backend::CUDA {
 
-__global__ void relu_forward_kernel(float *in, float *out, int n) {
+__global__ void relu_forward_kernel(const float *in, float *out, int n) {
     CUDA_KERNEL_LOOP(i, n) {
         out[i] = in[i] > 0 ? in[i] : 0;
     }
 }
 
-__global__ void relu_backward_kernel(float *grad_out, float *in, float *grad_in, int n) {
+__global__ void relu_backward_kernel(const float *grad_out, const float *in, float *grad_in, int n) {
     CUDA_KERNEL_LOOP(i, n){
         grad_in[i] = in[i] > 0 ? grad_out[i] : 0;
     }
