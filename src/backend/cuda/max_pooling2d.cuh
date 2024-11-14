@@ -1,0 +1,14 @@
+#ifndef TINYTORCH_BACKEND_CUDA_MAX_POOLING2D_CUH_
+#define TINYTORCH_BACKEND_CUDA_MAX_POOLING2D_CUH_
+
+namespace TinyTorch::Backend::CUDA {
+
+void max_pooling2d_forward(float *input, float *output, float *mask, int batchsize, int channels, int height, int width,
+                           int ksize, int pad, int stride);
+
+void max_pooling2d_backward(float *input, float *output, float *mask, int batchsize, int channels, int height, int width,
+                            int ksize, int pad, int stride, float *grad_output, float *grad_input);
+
+}
+
+#endif  // TINYTORCH_BACKEND_CUDA_MAX_POOLING2D_CUH_
