@@ -2,7 +2,7 @@
 
 #include <cuda_runtime.h>
 
-#include "backend/cuda/utils.h"
+#include "backend/cuda/utils.cuh"
 
 namespace TinyTorch::Backend::CUDA {
 

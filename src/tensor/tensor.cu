@@ -1,4 +1,4 @@
-#include "tensor/tensor.h"
+#include "tensor/tensor.cuh"
 
 #include <cstddef>
 #include <vector>

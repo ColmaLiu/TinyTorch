@@ -1,5 +1,5 @@
-#ifndef TINYTORCH_TERSOR_TENSOR_H_
-#define TINYTORCH_TERSOR_TENSOR_H_
+#ifndef TINYTORCH_TERSOR_TENSOR_CUH_
+#define TINYTORCH_TERSOR_TENSOR_CUH_
 
 #include <vector>
 
@@ -36,4 +36,4 @@ public:
 
 }
 
-#endif  // TINYTORCH_TERSOR_TENSOR_H_
+#endif  // TINYTORCH_TERSOR_TENSOR_CUH_
