@@ -56,10 +56,12 @@ __global__ void max_pooling2d_backward_kernel(const int n, const float *input, c
             for (int j = 0; j < ksize; ++j) {
                 int h = h_in + i;
                 int w = w_in + j;
-                if (h >= 0 && w >= 0 && h < height_in && w < width_in
-                    && mask_ptr[i * width_in + j] == 1.0f) {
-                    grad_input[offset + i * width_in + j] = grad_output[index];
-                    break;
+                if (h >= 0 && w >= 0 && h < height_in && w < width_in) {
+                    if (mask_ptr[i * width_in + j] == 1.0f) {
+                        grad_input[offset + i * width_in + j] = grad_output[index];
+                    } else {
+                        grad_input[offset + i * width_in + j] = 0.0f;
+                    }
                 }
             }
         }
@@ -67,9 +69,7 @@ __global__ void max_pooling2d_backward_kernel(const int n, const float *input, c
 }
 
 void max_pooling2d_forward(float *input, float *output, float *mask, int batchsize, int channels, int height, int width,
-                           int ksize, int pad, int stride) {
-    int height_out = (height + 2 * pad - ksize) / stride + 1;
-    int width_out = (width + 2 * pad - ksize) / stride + 1;
+                           int ksize, int pad, int stride, int height_out, int width_out) {
     int n = batchsize * channels * height_out * width_out;
     max_pooling2d_forward_kernel<<<CudaGetBlocks(n), kCudaThreadsNum>>>(n, input, output, mask, height, width,
                                                                         height_out, width_out, ksize, pad, stride);
@@ -77,9 +77,8 @@ void max_pooling2d_forward(float *input, float *output, float *mask, int batchsi
 }
 
 void max_pooling2d_backward(float *input, float *output, float *mask, int batchsize, int channels, int height, int width,
-                            int ksize, int pad, int stride, float *grad_output, float *grad_input) {
-    int height_out = (height + 2 * pad - ksize) / stride + 1;
-    int width_out = (width + 2 * pad - ksize) / stride + 1;
+                            int ksize, int pad, int stride, int height_out, int width_out,
+                            float *grad_output, float *grad_input) {
     int n = batchsize * channels * height_out * width_out;
     max_pooling2d_backward_kernel<<<CudaGetBlocks(n), kCudaThreadsNum>>>(n, input, output, mask, height, width,
                                                                          height_out, width_out, ksize, pad, stride,
