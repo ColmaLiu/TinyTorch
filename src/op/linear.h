@@ -11,13 +11,11 @@ namespace TinyTorch {
 // return: output
 Tensor linear_forward(const Tensor &input, const Tensor &weight, const Tensor &bias);
 
-// params: input, output, weight, bias, grad_output
+// params: input, weight, grad_output
 // return: grad_input, grad_weight, grad_bias
 std::tuple<Tensor, Tensor, Tensor> linear_backward(
         const Tensor &input,
-        const Tensor &output,
         const Tensor &weight,
-        const Tensor &bias,
         const Tensor &grad_output);
 
 }

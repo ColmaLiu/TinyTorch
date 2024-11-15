@@ -7,13 +7,13 @@
 
 namespace TinyTorch {
 
-// params: input
+// params: input, kernel_size, stride, padding
 // return: output, mask
-std::tuple<Tensor, Tensor> max_pooling2d_forward(const Tensor &input, int ksize, int pad, int stride);
+std::tuple<Tensor, Tensor> max_pooling2d_forward(const Tensor &input, int kernel_size, int stride, int padding);
 
-// params: mask, grad_output
+// params: mask, grad_output, kernel_size, stride, padding
 // return: grad_input
-Tensor max_pooling2d_backward(const Tensor &mask, const Tensor &grad_output, int ksize, int pad, int stride);
+Tensor max_pooling2d_backward(const Tensor &mask, const Tensor &grad_output, int kernel_size, int stride, int padding);
 
 }
 

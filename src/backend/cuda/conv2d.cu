@@ -16,9 +16,7 @@
 namespace TinyTorch::Backend::CUDA {
 
 void conv2d_forward(float *input, float *output, float *kernel, float *bias, int batchsize, int channels_in, int channels_out,
-                    int height, int width, int ksize, int pad, int stride) {
-    int height_col = (height + 2 * pad - ksize) / stride + 1;
-    int width_col = (width + 2 * pad - ksize) / stride + 1;
+                    int height, int width, int ksize, int pad, int stride, int height_col, int width_col) {
     thrust::device_vector<float> col(channels_in * ksize * ksize * height_col * width_col);
     for (int i = 0; i < batchsize; i++) {
         im2col(input + channels_in * height * width * i, channels_in, height, width, ksize, pad, stride,
@@ -31,10 +29,8 @@ void conv2d_forward(float *input, float *output, float *kernel, float *bias, int
 }
 
 void conv2d_backward(float *input, float *output, float *kernel, float *bias, int batchsize, int channels_in, int channels_out,
-                     int height, int width, int ksize, int pad, int stride, float *grad_output, float *grad_input,
-                     float *grad_kernel, float *grad_bias) {
-    int height_col = (height + 2 * pad - ksize) / stride + 1;
-    int width_col = (width + 2 * pad - ksize) / stride + 1;
+                     int height, int width, int ksize, int pad, int stride, int height_col, int width_col,
+                     float *grad_output, float *grad_input, float *grad_kernel, float *grad_bias) {
     thrust::device_vector<float> grad_col(channels_in * ksize * ksize * height_col * width_col);
     thrust::device_vector<float> col(channels_in * ksize * ksize * height_col * width_col);
     thrust::device_ptr<float> grad_in(grad_input);
