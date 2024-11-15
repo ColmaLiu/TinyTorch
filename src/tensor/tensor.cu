@@ -7,16 +7,9 @@
 
 #include "basic/device.h"
 #include "basic/mem.cuh"
+#include "utils/utils.h"
 
 namespace TinyTorch {
-
-inline int get_product_over_vector(const std::vector<int> vec) {
-    int res = 1;
-    for (auto &i : vec) {
-        res *= i;
-    }
-    return res;
-}
 
 inline float *Tensor::allocate_cpu() {
     float *data_ = new float[numel()];

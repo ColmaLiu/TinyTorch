@@ -12,41 +12,37 @@ inline int CudaGetBlocks(const int N) {
 }
 
 #define CUDA_KERNEL_LOOP(i, n) \
-    for(int i = blockIdx.x * blockDim.x + threadIdx.x; i < (n); i += blockDim.x * gridDim.x)
+for(int i = blockIdx.x * blockDim.x + threadIdx.x; i < (n); i += blockDim.x * gridDim.x)
 
-struct sub_scalar {
-    const float a;
-    inline sub_scalar(float a) : a(a) {}
-    __host__ __device__
-    constexpr float operator()(const float &x) const {
-        return x - a;
-    }
+#define STRUCT_OP_SCALAR(NAME, EXPR) \
+struct NAME## {\
+    const float a;\
+    inline NAME##(float a) : a(a) {}\
+    __host__ __device__\
+    constexpr float operator()(const float &x) const {\
+        return (EXPR);\
+    }\
 };
 
-struct div_scalar {
-    const float a;
-    inline div_scalar(float a) : a(a) {}
-    __host__ __device__
-    constexpr float operator()(const float &x) const {
-        return x / a;
-    }
+#define STRUCT_OP(NAME, EXPR) \
+struct NAME## {\
+    inline NAME##() {}\
+    __host__ __device__\
+    constexpr float operator()(const float &x) const {\
+        return (EXPR);\
+    }\
 };
 
-struct expo {
-    inline expo() {}
-    __host__ __device__
-    constexpr float operator()(const float &x) const {
-        return expf(x);
-    }
-};
+STRUCT_OP_SCALAR(add_scalar, x + a)
+STRUCT_OP_SCALAR(sub_scalar, x - a)
+STRUCT_OP_SCALAR(mul_scalar, x * a)
+STRUCT_OP_SCALAR(div_scalar, x / a)
+STRUCT_OP_SCALAR(pow_scalar, powf(x, a))
 
-struct neglog {
-    inline neglog() {}
-    __host__ __device__
-    constexpr float operator()(const float &x) const {
-        return -logf(x);
-    }
-};
+STRUCT_OP(inv, 1 / x)
+STRUCT_OP(expo, expf(x))
+STRUCT_OP(log, logf(x))
+STRUCT_OP(neglog, -logf(x))
 
 // C(m, n) = alp * op(A)(m, k) * op(B)(k, n) + bet * C(m, n)
 void gemm(cublasOperation_t OP_A, cublasOperation_t OP_B, const int m, const int n, const int k,
