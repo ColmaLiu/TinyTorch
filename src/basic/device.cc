@@ -23,4 +23,8 @@ Device Device::get_default_device() {
     return default_device;
 }
 
+void Device::set_default_device(const Device &device) {
+    default_device = device;
+}
+
 }

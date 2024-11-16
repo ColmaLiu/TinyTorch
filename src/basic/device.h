@@ -39,6 +39,7 @@ public:
 
     static Device default_device;
     static Device get_default_device();
+    static void set_default_device(const Device &device);
 
     device_type_t type;
 };
