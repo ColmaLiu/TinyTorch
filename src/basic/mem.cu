@@ -17,7 +17,7 @@ inline cudaMemcpyKind get_cudaMemcpyKind(Device dst, Device src) {
         return cudaMemcpyHostToDevice;
     } else if (dst.is_cuda() && src.is_cuda()) {
         return cudaMemcpyDeviceToDevice;
-    }
+    } else {}
 }
 
 void memcpy(void *dst_ptr, Device dst, void *src_ptr, Device src, size_t length) {

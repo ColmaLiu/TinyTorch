@@ -15,9 +15,9 @@ inline int CudaGetBlocks(const int N) {
 for(int i = blockIdx.x * blockDim.x + threadIdx.x; i < (n); i += blockDim.x * gridDim.x)
 
 #define STRUCT_OP_SCALAR(NAME, EXPR) \
-struct NAME## {\
+struct NAME {\
     const float a;\
-    inline NAME##(float a) : a(a) {}\
+    inline NAME(float a) : a(a) {}\
     __host__ __device__\
     constexpr float operator()(const float &x) const {\
         return (EXPR);\
@@ -25,8 +25,8 @@ struct NAME## {\
 };
 
 #define STRUCT_OP(NAME, EXPR) \
-struct NAME## {\
-    inline NAME##() {}\
+struct NAME {\
+    inline NAME() {}\
     __host__ __device__\
     constexpr float operator()(const float &x) const {\
         return (EXPR);\
@@ -65,12 +65,12 @@ void im2col(const float *im, const int channels, const int height, const int wid
 void col2im(float *im, const int channels, const int height, const int width, const int ksize,
                 const int pad, const int stride, const float *col);
 
-}
-
 // output(m, ) = input(m, n)[range(m), index(m, )]
 void take_slice(const float *input, const float *index, float *output, const int m, const int n);
 
 // x(m, n)[range(m), index(m, )] -= 1
 void slice_sub1(float *x, const float *index, const int m, const int n);
+
+}
 
 #endif  // TINYTORCH_BACKEND_CUDA_UTILS_CUH_

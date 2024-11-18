@@ -1,12 +1,13 @@
 #include "backend/cuda/utils.cuh"
 
+#include <cuda_runtime.h>
 #include <cublas_v2.h>
 
 namespace TinyTorch::Backend::CUDA {
 
 // C(m, n) = alp * op(A)(m, k) * op(B)(k, n) + bet * C(m, n)
 void gemm(cublasOperation_t OP_A, cublasOperation_t OP_B, const int m, const int n, const int k,
-              const float *A, const float *B, float *C, const float alp = 1.0f, const float bet = 0.0f) {
+              const float *A, const float *B, float *C, const float alp, const float bet) {
     cublasHandle_t handle;
     cublasCreate(&handle);
     int lda = (OP_A == CUBLAS_OP_N) ? k : m;

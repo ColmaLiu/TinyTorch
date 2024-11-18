@@ -29,7 +29,7 @@ inline void Tensor::free_data() {
     } else {}
 }
 
-Tensor::Tensor(const std::vector<int> &shape, Device device = Device::default_device)
+Tensor::Tensor(const std::vector<int> &shape, Device device)
         : shape(shape), device(device) {
     if (device.is_cpu()) {
         data = allocate_cpu();
