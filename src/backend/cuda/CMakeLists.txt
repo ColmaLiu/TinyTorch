@@ -6,6 +6,7 @@ add_library(tinytorch_backend_cuda STATIC
     relu.cu
     sigmoid.cu
     tensor_binary_op.cu
+    tensor_eq.cu
     tensor_scalar_op.cu
     tensor_unary_op.cu
     utils.cu

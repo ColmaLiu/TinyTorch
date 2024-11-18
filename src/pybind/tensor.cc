@@ -29,6 +29,21 @@ void init_tensor(pybind11::module &m) {
             return Tensor::from_vector(data, shape, Device::get_default_device());
         })
 
+        .def("__eq__", &Tensor::operator==)
+        .def("__ne__", &Tensor::operator!=)
+
+        .def("__add__", static_cast<Tensor (Tensor::*)(const Tensor &) const>(&Tensor::operator+))
+        .def("__sub__", static_cast<Tensor (Tensor::*)(const Tensor &) const>(&Tensor::operator-))
+        .def("__mul__", static_cast<Tensor (Tensor::*)(const Tensor &) const>(&Tensor::operator*))
+        .def("__truediv__", static_cast<Tensor (Tensor::*)(const Tensor &) const>(&Tensor::operator/))
+
+        .def("__add__", static_cast<Tensor (Tensor::*)(const float &) const>(&Tensor::operator+))
+        .def("__sub__", static_cast<Tensor (Tensor::*)(const float &) const>(&Tensor::operator-))
+        .def("__mul__", static_cast<Tensor (Tensor::*)(const float &) const>(&Tensor::operator*))
+        .def("__truediv__", static_cast<Tensor (Tensor::*)(const float &) const>(&Tensor::operator/))
+
+        .def("__neg__", static_cast<Tensor (Tensor::*)() const>(&Tensor::operator-))
+
         .def(pybind11::init([](pybind11::array_t<float> &array, std::optional<Device> device_) {
             Device device = device_.value_or(Device::get_default_device());
             std::vector<int> shape;

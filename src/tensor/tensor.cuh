@@ -31,6 +31,21 @@ public:
 
     ~Tensor();
 
+    bool operator==(const Tensor &other) const;
+    bool operator!=(const Tensor &other) const;
+
+    Tensor operator+(const Tensor &other) const;
+    Tensor operator-(const Tensor &other) const;
+    Tensor operator*(const Tensor &other) const;
+    Tensor operator/(const Tensor &other) const;
+
+    Tensor operator+(const float &scalar) const;
+    Tensor operator-(const float &scalar) const;
+    Tensor operator*(const float &scalar) const;
+    Tensor operator/(const float &scalar) const;
+
+    Tensor operator-() const;
+
     std::vector<int> shape;
     Device device;
     float *data;

@@ -7,6 +7,10 @@
 
 #include "basic/device.h"
 #include "basic/mem.cuh"
+#include "op/tensor_binary_op.h"
+#include "op/tensor_eq.h"
+#include "op/tensor_scalar_op.h"
+#include "op/tensor_unary_op.h"
 #include "utils/utils.h"
 
 namespace TinyTorch {
@@ -112,6 +116,43 @@ Tensor Tensor::from_vector(const std::vector<float> &data, const std::vector<int
 
 Tensor::~Tensor() {
     free_data();
+}
+
+bool Tensor::operator==(const Tensor &other) const {
+    return tensor_eq(*this, other);
+}
+bool Tensor::operator!=(const Tensor &other) const {
+    return !tensor_eq(*this, other);
+}
+
+Tensor Tensor::operator+(const Tensor &other) const {
+    return tensor_add(*this, other);
+}
+Tensor Tensor::operator-(const Tensor &other) const {
+    return tensor_sub(*this, other);
+}
+Tensor Tensor::operator*(const Tensor &other) const {
+    return tensor_mul(*this, other);
+}
+Tensor Tensor::operator/(const Tensor &other) const {
+    return tensor_div(*this, other);
+}
+
+Tensor Tensor::operator+(const float &scalar) const {
+    return tensor_adds(*this, scalar);
+}
+Tensor Tensor::operator-(const float &scalar) const {
+    return tensor_subs(*this, scalar);
+}
+Tensor Tensor::operator*(const float &scalar) const {
+    return tensor_muls(*this, scalar);
+}
+Tensor Tensor::operator/(const float &scalar) const {
+    return tensor_divs(*this, scalar);
+}
+
+Tensor Tensor::operator-() const {
+    return tensor_neg(*this);
 }
 
 }

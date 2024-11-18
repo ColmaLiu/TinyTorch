@@ -3,6 +3,8 @@
 
 #include <cublas_v2.h>
 
+#include "utils/utils.h"
+
 namespace TinyTorch::Backend::CUDA {
 
 constexpr int kCudaThreadsNum = 512;
@@ -43,6 +45,15 @@ STRUCT_OP(inv, 1 / x)
 STRUCT_OP(expo, expf(x))
 STRUCT_OP(log, logf(x))
 STRUCT_OP(neglog, -logf(x))
+
+struct equal
+{
+    inline equal() {}
+    __host__ __device__
+    constexpr bool operator()(const float &x, const float &y) const {
+        return fabsf(x - y) <= FLOAT_ABS_THRES + FLOAT_REL_THRES * fmaxf(fabsf(x), fabsf(y));
+    }
+};
 
 // C(m, n) = alp * op(A)(m, k) * op(B)(k, n) + bet * C(m, n)
 void gemm(cublasOperation_t OP_A, cublasOperation_t OP_B, const int m, const int n, const int k,
