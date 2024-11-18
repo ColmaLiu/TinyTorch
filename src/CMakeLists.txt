@@ -1,0 +1,6 @@
+add_subdirectory(backend)
+add_subdirectory(basic)
+add_subdirectory(op)
+add_subdirectory(pybind)
+add_subdirectory(tensor)
+add_subdirectory(utils)
