@@ -9,11 +9,11 @@
 namespace TinyTorch {
 
 Tensor linear_forward(const Tensor &input, const Tensor &weight, const Tensor &bias) {
-    assert(input.device.is_cuda() && weight.device.is_cuda() && bias.device.is_cuda());
-    assert(input.dim() == 2 &&
+    ASSERT(input.device.is_cuda() && weight.device.is_cuda() && bias.device.is_cuda());
+    ASSERT(input.dim() == 2 &&
            weight.dim() == 2 &&
            bias.dim() == 1);
-    assert(input.shape[1] == weight.shape[0] &&
+    ASSERT(input.shape[1] == weight.shape[0] &&
            weight.shape[1] == bias.shape[0]);
     int batchsize = input.shape[0];
     int in_features = weight.shape[0];
@@ -30,13 +30,13 @@ std::tuple<Tensor, Tensor, Tensor> linear_backward(
         const Tensor &input,
         const Tensor &weight,
         const Tensor &grad_output) {
-    assert(input.device.is_cuda() &&
+    ASSERT(input.device.is_cuda() &&
            weight.device.is_cuda() &&
            grad_output.device.is_cuda());
-    assert(input.dim() == 2 &&
+    ASSERT(input.dim() == 2 &&
            weight.dim() == 2 &&
            grad_output.dim() == 2);
-    assert(input.shape[0] == grad_output.shape[0] &&
+    ASSERT(input.shape[0] == grad_output.shape[0] &&
            input.shape[1] == weight.shape[0] &&
            grad_output.shape[1] == weight.shape[1]);
     int batchsize = input.shape[0];

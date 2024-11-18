@@ -15,7 +15,7 @@ inline int get_product_over_vector(const std::vector<int> vec) {
     return res;
 }
 
-#define assert(condition) \
+#define ASSERT(condition) \
     do { \
         if (!(condition)) { \
             std::cerr << "Assertion failed: " << #condition \

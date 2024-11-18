@@ -102,7 +102,7 @@ int Tensor::dim() const {
 }
 
 Tensor Tensor::from_vector(const std::vector<float> &data, const std::vector<int> &shape, Device device) {
-    assert(data.size() == get_product_over_vector(shape));
+    ASSERT(data.size() == get_product_over_vector(shape));
     Tensor ret(shape, Device::cpu());
     for (int i = 0; i < data.size(); i++) {
         ret.data[i] = data[i];

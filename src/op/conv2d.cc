@@ -9,10 +9,10 @@
 namespace TinyTorch {
 
 Tensor conv2d_forward(const Tensor &input, const Tensor &weight, const Tensor &bias, int stride, int padding) {
-    assert(input.device.is_cuda() &&
+    ASSERT(input.device.is_cuda() &&
            weight.device.is_cuda() &&
            bias.device.is_cuda());
-    assert(input.dim() == 4 &&
+    ASSERT(input.dim() == 4 &&
            weight.dim() == 4 && 
            bias.dim() == 1);
     int batchsize = input.shape[0];
@@ -21,7 +21,7 @@ Tensor conv2d_forward(const Tensor &input, const Tensor &weight, const Tensor &b
     int height = input.shape[2];
     int width = input.shape[3];
     int kernel_size = weight.shape[2];
-    assert(weight.shape[3] == kernel_size &&
+    ASSERT(weight.shape[3] == kernel_size &&
            input.shape[1] == channels_in &&
            bias.shape[0] == channels_out);
     int height_out = (height + 2 * padding - kernel_size) / stride + 1;
@@ -37,10 +37,10 @@ Tensor conv2d_forward(const Tensor &input, const Tensor &weight, const Tensor &b
 
 std::tuple<Tensor, Tensor, Tensor> conv2d_backward(const Tensor &input, const Tensor &weight, const Tensor &grad_output,
                        int stride, int padding) {
-    assert(input.device.is_cuda() &&
+    ASSERT(input.device.is_cuda() &&
            weight.device.is_cuda() &&
            grad_output.device.is_cuda());
-    assert(input.dim() == 4 &&
+    ASSERT(input.dim() == 4 &&
            weight.dim() == 4 &&
            grad_output.dim() == 4);
     int batchsize = input.shape[0];
@@ -51,7 +51,7 @@ std::tuple<Tensor, Tensor, Tensor> conv2d_backward(const Tensor &input, const Te
     int kernel_size = weight.shape[2];
     int height_out = (height + 2 * padding - kernel_size) / stride + 1;
     int width_out = (width + 2 * padding - kernel_size) / stride + 1;
-    assert(weight.shape[3] == kernel_size &&
+    ASSERT(weight.shape[3] == kernel_size &&
            input.shape[1] == channels_in &&
            grad_output.shape[0] == batchsize &&
            grad_output.shape[1] == channels_out &&

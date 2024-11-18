@@ -9,9 +9,9 @@
 namespace TinyTorch {
 
 std::tuple<Tensor, Tensor> max_pooling2d_forward(const Tensor &input, int kernel_size, int stride, int padding) {
-    assert(input.device.is_cuda());
-    assert(input.dim() == 4);
-    assert(kernel_size == stride);
+    ASSERT(input.device.is_cuda());
+    ASSERT(input.dim() == 4);
+    ASSERT(kernel_size == stride);
     int batchsize = input.shape[0];
     int channels = input.shape[1];
     int height = input.shape[2];
@@ -29,18 +29,18 @@ std::tuple<Tensor, Tensor> max_pooling2d_forward(const Tensor &input, int kernel
 }
 
 Tensor max_pooling2d_backward(const Tensor &mask, const Tensor &grad_output, int kernel_size, int stride, int padding) {
-    assert(mask.device.is_cuda() && grad_output.device.is_cuda());
-    assert(mask.dim() == 4 && grad_output.dim() == 4);
-    assert(mask.shape[0] == grad_output.shape[0] &&
+    ASSERT(mask.device.is_cuda() && grad_output.device.is_cuda());
+    ASSERT(mask.dim() == 4 && grad_output.dim() == 4);
+    ASSERT(mask.shape[0] == grad_output.shape[0] &&
            mask.shape[1] == grad_output.shape[1]);
-    assert(kernel_size == stride);
+    ASSERT(kernel_size == stride);
     int batchsize = mask.shape[0];
     int channels = mask.shape[1];
     int height = mask.shape[2];
     int width = mask.shape[3];
     int height_out = (height + 2 * padding - kernel_size) / stride + 1;
     int width_out = (width + 2 * padding - kernel_size) / stride + 1;
-    assert(grad_output.shape[2] == height_out &&
+    ASSERT(grad_output.shape[2] == height_out &&
            grad_output.shape[3] == width_out);
     Tensor grad_input(mask.shape, mask.device);
     if (mask.device.is_cuda()) {

@@ -7,7 +7,7 @@
 namespace TinyTorch {
 
 Tensor reshape(const Tensor &input, const std::vector<int> &shape) {
-    assert(input.numel() == get_product_over_vector(shape));
+    ASSERT(input.numel() == get_product_over_vector(shape));
     Tensor output(input);
     output.shape = shape;
     return output;

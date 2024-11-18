@@ -9,9 +9,9 @@
 namespace TinyTorch {
 
 std::tuple<Tensor, Tensor> cross_entropy_forward(const Tensor &input, const Tensor &target) {
-    assert(input.device.is_cuda() && target.device.is_cuda());
-    assert(input.dim() == 2 && target.dim() == 1);
-    assert(input.shape[0] == target.shape[0]);
+    ASSERT(input.device.is_cuda() && target.device.is_cuda());
+    ASSERT(input.dim() == 2 && target.dim() == 1);
+    ASSERT(input.shape[0] == target.shape[0]);
     int batchsize = input.shape[0];
     int labels = input.shape[1];
     Tensor prob(input.shape, input.device);
@@ -26,9 +26,9 @@ std::tuple<Tensor, Tensor> cross_entropy_forward(const Tensor &input, const Tens
 }
 
 Tensor cross_entropy_backward(const Tensor &prob, const Tensor &target) {
-    assert(prob.device.is_cuda() && target.device.is_cuda());
-    assert(prob.dim() == 2 && target.dim() == 1);
-    assert(prob.shape[0] == target.shape[0]);
+    ASSERT(prob.device.is_cuda() && target.device.is_cuda());
+    ASSERT(prob.dim() == 2 && target.dim() == 1);
+    ASSERT(prob.shape[0] == target.shape[0]);
     int batchsize = prob.shape[0];
     int labels = prob.shape[1];
     Tensor grad_input(prob.shape, prob.device);

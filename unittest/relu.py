@@ -6,7 +6,7 @@ from torch.nn import functional as F
 
 import numpy as np
 
-SHAPE = [3200, 3, 28, 28]
+SHAPE = [3200, 30, 28, 28]
 
 def test_relu():
     input = torch.randn(SHAPE, requires_grad=True)
