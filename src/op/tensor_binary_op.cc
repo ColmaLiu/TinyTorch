@@ -1,7 +1,6 @@
 #include "op/tensor_binary_op.h"
 
-#include <cassert>
-
+#include "utils/utils.h"
 #include "tensor/tensor.cuh"
 #include "backend/cuda/tensor_binary_op.cuh"
 

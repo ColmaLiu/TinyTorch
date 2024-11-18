@@ -1,8 +1,8 @@
 #include "op/max_pooling2d.h"
 
-#include <cassert>
 #include <tuple>
 
+#include "utils/utils.h"
 #include "tensor/tensor.cuh"
 #include "backend/cuda/max_pooling2d.cuh"
 

@@ -1,7 +1,6 @@
 #include "op/reshape.h"
 
-#include <cassert>
-
+#include "utils/utils.h"
 #include "tensor/tensor.cuh"
 #include "utils/utils.h"
 

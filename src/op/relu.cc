@@ -1,7 +1,6 @@
 #include "op/relu.h"
 
-#include <cassert>
-
+#include "utils/utils.h"
 #include "tensor/tensor.cuh"
 #include "backend/cuda/relu.cuh"
 

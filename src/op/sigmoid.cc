@@ -1,7 +1,6 @@
 #include "op/sigmoid.h"
 
-#include <cassert>
-
+#include "utils/utils.h"
 #include "tensor/tensor.cuh"
 #include "backend/cuda/sigmoid.cuh"
 

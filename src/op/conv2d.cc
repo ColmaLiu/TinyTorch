@@ -1,8 +1,8 @@
 #include "op/conv2d.h"
 
-#include <cassert>
 #include <tuple>
 
+#include "utils/utils.h"
 #include "tensor/tensor.cuh"
 #include "backend/cuda/conv2d.cuh"
 

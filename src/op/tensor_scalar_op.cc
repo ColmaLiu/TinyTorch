@@ -1,7 +1,6 @@
 #include "op/tensor_scalar_op.h"
 
-#include <cassert>
-
+#include "utils/utils.h"
 #include "tensor/tensor.cuh"
 #include "backend/cuda/tensor_scalar_op.cuh"
 

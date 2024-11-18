@@ -27,6 +27,8 @@ public:
     float *data_ptr() const;
     int dim() const;
 
+    static Tensor from_vector(const std::vector<float> &data, const std::vector<int> &shape, Device device);
+
     ~Tensor();
 
     std::vector<int> shape;

@@ -1,8 +1,8 @@
 #include "op/linear.h"
 
-#include <cassert>
 #include <tuple>
 
+#include "utils/utils.h"
 #include "tensor/tensor.cuh"
 #include "backend/cuda/linear.cuh"
 

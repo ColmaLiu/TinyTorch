@@ -1,6 +1,8 @@
 #ifndef TINYTORCH_UTILS_UTILS_H_
 #define TINYTORCH_UTILS_UTILS_H_
 
+#include <cstdlib>
+#include <iostream>
 #include <vector>
 
 namespace TinyTorch {
@@ -12,6 +14,16 @@ inline int get_product_over_vector(const std::vector<int> vec) {
     }
     return res;
 }
+
+#define assert(condition) \
+    do { \
+        if (!(condition)) { \
+            std::cerr << "Assertion failed: " << #condition \
+                      << ", file " << __FILE__ \
+                      << ", line " << __LINE__ << ".\n"; \
+            std::abort(); \
+        } \
+    } while (0)
 
 }
 

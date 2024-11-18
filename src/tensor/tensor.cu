@@ -101,6 +101,15 @@ int Tensor::dim() const {
     return shape.size();
 }
 
+Tensor Tensor::from_vector(const std::vector<float> &data, const std::vector<int> &shape, Device device) {
+    assert(data.size() == get_product_over_vector(shape));
+    Tensor ret(shape, Device::cpu());
+    for (int i = 0; i < data.size(); i++) {
+        ret.data[i] = data[i];
+    }
+    return ret.to(device);
+}
+
 Tensor::~Tensor() {
     free_data();
 }
