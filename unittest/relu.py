@@ -8,26 +8,30 @@ import numpy as np
 
 SHAPE = [32, 3, 28, 28]
 
+device = None
+
 def test_relu():
-    input = torch.randn(SHAPE, requires_grad=True)
-    grad_output = torch.randn(SHAPE, requires_grad=True)
+    input = torch.randn(SHAPE, device=device, requires_grad=True)
+    grad_output = torch.randn(SHAPE, device=device, requires_grad=True)
     output_gt = F.relu(input)
     output_gt.backward(grad_output)
 
-    output_gt = output_gt.detach().numpy()
-    grad_input_gt = input.grad.detach().numpy()
+    output_gt = tinytorch.Tensor(output_gt.detach().numpy())
+    grad_input_gt = tinytorch.Tensor(input.grad.detach().numpy())
     input = tinytorch.Tensor(input.detach().numpy())
     grad_output = tinytorch.Tensor(grad_output.detach().numpy())
 
     output_res = tinytorch.op.relu_forward(input)
     grad_input_res = tinytorch.op.relu_backward(input, grad_output)
 
-    np.testing.assert_allclose(output_res.numpy(), output_gt)
-    np.testing.assert_allclose(grad_input_res.numpy(), grad_input_gt)
+    assert output_res == output_gt
+    assert grad_input_res == grad_input_gt
 
 def main():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print("Torch Device:", device)
     tinytorch.Device.set_default_device(tinytorch.Device.cuda())
-    print("Device:", "cpu" if tinytorch.Device.get_default_device().is_cpu() else "cuda")
+    print("TinyTorch Default Device:", "cpu" if tinytorch.Device.get_default_device().is_cpu() else "cuda")
     test_relu()
 
 if __name__ == "__main__":

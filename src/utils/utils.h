@@ -18,6 +18,8 @@ inline int get_product_over_vector(const std::vector<int> vec) {
 #define FLOAT_ABS_THRES ((float)2e-4)
 #define FLOAT_REL_THRES ((float)1e-2)
 
+#define FLOAT_CLOSE_THRES ((float)1e-1)
+
 #define ASSERT(condition) \
     do { \
         if (!(condition)) { \

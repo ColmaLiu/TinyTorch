@@ -6,11 +6,13 @@
 #include "op/conv2d.h"
 #include "op/cross_entropy.h"
 #include "op/linear.h"
-#include "op/max_pooling2d.h"
+#include "op/max_pool2d.h"
 #include "op/relu.h"
 #include "op/reshape.h"
 #include "op/sigmoid.h"
 #include "op/tensor_binary_op.h"
+#include "op/tensor_close.h"
+#include "op/tensor_eq.h"
 #include "op/tensor_scalar_op.h"
 #include "op/tensor_unary_op.h"
 
@@ -48,11 +50,11 @@ void init_op(pybind11::module &m) {
            "return: grad_input, grad_weight, grad_bias",
            "input"_a, "weight"_a, "grad_output"_a);
 
-    op.def("max_pooling2d_forward", &max_pooling2d_forward,
+    op.def("max_pool2d_forward", &max_pool2d_forward,
            "params: input, kernel_size, stride, padding\n"
            "return: output, mask",
            "input"_a, "kernel_size"_a, "stride"_a, "padding"_a);
-    op.def("max_pooling2d_backward", &max_pooling2d_backward,
+    op.def("max_pool2d_backward", &max_pool2d_backward,
            "params: mask, grad_output, kernel_size, stride, padding\n"
            "return: grad_input\n"
            "**stride should be equal to kernel_size**",
@@ -82,6 +84,10 @@ void init_op(pybind11::module &m) {
     op.def("tensor_sub", &tensor_sub, "a"_a, "b"_a);
     op.def("tensor_mul", &tensor_mul, "a"_a, "b"_a);
     op.def("tensor_div", &tensor_div, "a"_a, "b"_a);
+
+    op.def("tensor_close", &tensor_close, "a"_a, "b"_a);
+
+    op.def("tensor_eq", &tensor_eq, "a"_a, "b"_a);
 
     op.def("tensor_adds", &tensor_adds, "input"_a, "scalar"_a);
     op.def("tensor_subs", &tensor_subs, "input"_a, "scalar"_a);

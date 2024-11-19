@@ -6,25 +6,26 @@ from torch.nn import functional as F
 
 import numpy as np
 
-SHAPE = [32, 3, 28, 28]
+BATCHSIZE = 32
+LABELS = 10
 
 device = None
 
-def test_sigmoid():
-    input = torch.randn(SHAPE, device=device, requires_grad=True)
-    grad_output = torch.randn(SHAPE, device=device, requires_grad=True)
-    output_gt = F.sigmoid(input)
-    output_gt.backward(grad_output)
+def test_cross_entropy():
+    input = torch.randn((BATCHSIZE, LABELS), device=device, requires_grad=True)
+    target = torch.randint(0, LABELS, (BATCHSIZE, ), device=device)
+    loss_gt = F.cross_entropy(input, target)
+    loss_gt.backward()
 
-    output_gt = tinytorch.Tensor(output_gt.detach().numpy())
     grad_input_gt = tinytorch.Tensor(input.grad.detach().numpy())
     input = tinytorch.Tensor(input.detach().numpy())
-    grad_output = tinytorch.Tensor(grad_output.detach().numpy())
+    target = tinytorch.Tensor(target.float().detach().numpy())
+    loss_gt = tinytorch.Tensor(loss_gt.item())
 
-    output_res = tinytorch.op.sigmoid_forward(input)
-    grad_input_res = tinytorch.op.sigmoid_backward(output_res, grad_output)
+    prob_res, loss_res = tinytorch.op.cross_entropy_forward(input, target)
+    grad_input_res = tinytorch.op.cross_entropy_backward(prob_res, target)
 
-    assert output_res == output_gt
+    assert loss_res == loss_gt
     assert grad_input_res == grad_input_gt
 
 def main():
@@ -32,7 +33,7 @@ def main():
     print("Torch Device:", device)
     tinytorch.Device.set_default_device(tinytorch.Device.cuda())
     print("TinyTorch Default Device:", "cpu" if tinytorch.Device.get_default_device().is_cpu() else "cuda")
-    test_sigmoid()
+    test_cross_entropy()
 
 if __name__ == "__main__":
     main()

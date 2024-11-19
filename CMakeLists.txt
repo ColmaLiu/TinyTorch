@@ -40,32 +40,10 @@ set(COMMON_HEADER_DIRS
 set(COMMON_LIB_DIRS "")
 set(COMMON_LIBS CUDA::cudart)
 
-# include("cmake/FindCUDNN.cmake")
-# if (CUDNN_FOUND)
-#   message("Found cuDNN")
-#   list(APPEND COMMON_HEADER_DIRS ${CUDNN_INCLUDE_PATH})
-#   list(APPEND COMMON_LIB_DIRS ${CUDNN_LIBRARY_PATH})
-# else()
-#   message(FATAL_ERROR "cuDNN not found")
-# endif()
-
 # Let COMMON_HEADER_DIRS & COMMON_LIB_DIRS take effect
 include_directories(${COMMON_HEADER_DIRS})
 link_directories(${COMMON_LIB_DIRS})
 link_libraries(${COMMON_LIBS})
-
-# GoogleTest Preparation - Code block copied from
-#   https://google.github.io/googletest/quickstart-cmake.html
-# include(FetchContent)
-# FetchContent_Declare(
-#   googletest
-#   GIT_REPOSITORY https://gitee.com/mirrors/googletest.git	# We use the mirror from gitee.com to avoid the GFW (the original repo is https://github.com/google/googletest.git)
-#   GIT_TAG release-1.12.1
-# )
-# FetchContent_MakeAvailable(googletest)
-
-# find_package(OpenMP REQUIRED)
-# link_libraries(OpenMP::OpenMP_CXX)
 
 include_directories(${PROJECT_SOURCE_DIR})
 include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})

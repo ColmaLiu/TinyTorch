@@ -46,12 +46,21 @@ STRUCT_OP(expo, expf(x))
 STRUCT_OP(log, logf(x))
 STRUCT_OP(neglog, -logf(x))
 
-struct equal
-{
+struct equal {
     inline equal() {}
     __host__ __device__
     constexpr bool operator()(const float &x, const float &y) const {
-        return fabsf(x - y) <= FLOAT_ABS_THRES + FLOAT_REL_THRES * fmaxf(fabsf(x), fabsf(y));
+        bool is_equal = fabsf(x - y) <= FLOAT_ABS_THRES + FLOAT_REL_THRES * fmaxf(fabsf(x), fabsf(y));
+        return is_equal;
+    }
+};
+
+struct close {
+    inline close() {}
+    __host__ __device__
+    constexpr bool operator()(const float &x, const float &y) const {
+        bool is_close = fabsf(x - y) <= FLOAT_ABS_THRES + FLOAT_CLOSE_THRES * fmaxf(fabsf(x), fabsf(y));
+        return is_close;
     }
 };
 

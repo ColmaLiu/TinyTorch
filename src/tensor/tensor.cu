@@ -5,6 +5,14 @@
 
 #include <cuda_runtime.h>
 
+#include <thrust/device_vector.h>
+#include <thrust/transform.h>
+#include <thrust/sequence.h>
+#include <thrust/copy.h>
+#include <thrust/fill.h>
+#include <thrust/replace.h>
+#include <thrust/functional.h>
+
 #include "basic/device.h"
 #include "basic/mem.cuh"
 #include "op/tensor_binary_op.h"
@@ -112,6 +120,26 @@ Tensor Tensor::from_vector(const std::vector<float> &data, const std::vector<int
         ret.data[i] = data[i];
     }
     return ret.to(device);
+}
+
+Tensor Tensor::zeros(const std::vector<int> &shape, Device device) {
+    return fill(0, shape, device);
+}
+Tensor Tensor::zeros_like(const Tensor &other) {
+    return zeros(other.shape, other.device);
+}
+Tensor Tensor::fill(const float &scalar, const std::vector<int> &shape, Device device) {
+    Tensor ret(shape, device);
+    if (device.is_cuda()) {
+        thrust::device_ptr<float> data(ret.data);
+        thrust::fill(data, data + ret.numel(), scalar);
+    } else if (device.is_cpu()) {
+        thrust::fill(ret.data, ret.data + ret.numel(), scalar);
+    } else {}
+    return ret;
+}
+Tensor Tensor::fill_like(const float &scalar, const Tensor &other) {
+    return fill(scalar, other.shape, other.device);
 }
 
 Tensor::~Tensor() {

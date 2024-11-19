@@ -27,7 +27,12 @@ public:
     float *data_ptr() const;
     int dim() const;
 
-    static Tensor from_vector(const std::vector<float> &data, const std::vector<int> &shape, Device device);
+    static Tensor from_vector(const std::vector<float> &data, const std::vector<int> &shape, Device device = Device::default_device);
+
+    static Tensor zeros(const std::vector<int> &shape, Device device = Device::default_device);
+    static Tensor zeros_like(const Tensor &other);
+    static Tensor fill(const float &scalar, const std::vector<int> &shape, Device device = Device::default_device);
+    static Tensor fill_like(const float &scalar, const Tensor &other);
 
     ~Tensor();
 

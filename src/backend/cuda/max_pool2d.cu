@@ -1,4 +1,4 @@
-#include "backend/cuda/max_pooling2d.cuh"
+#include "backend/cuda/max_pool2d.cuh"
 
 #include <cuda_runtime.h>
 
@@ -6,7 +6,7 @@
 
 namespace TinyTorch::Backend::CUDA {
 
-__global__ void max_pooling2d_forward_kernel(const int n, const float *input, float *output, float *mask,
+__global__ void max_pool2d_forward_kernel(const int n, const float *input, float *output, float *mask,
                                              const int height_in, const int width_in,
                                              const int height_out, const int width_out,
                                              const int ksize, const int pad, const int stride) {
@@ -37,7 +37,7 @@ __global__ void max_pooling2d_forward_kernel(const int n, const float *input, fl
     }
 }
 
-__global__ void max_pooling2d_backward_kernel(const int n, const float *input, const float *output, const float *mask,
+__global__ void max_pool2d_backward_kernel(const int n, const float *input, const float *output, const float *mask,
                                               const int height_in, const int width_in,
                                               const int height_out, const int width_out,
                                               const int ksize, const int pad, const int stride,
@@ -68,19 +68,19 @@ __global__ void max_pooling2d_backward_kernel(const int n, const float *input, c
     }
 }
 
-void max_pooling2d_forward(float *input, float *output, float *mask, int batchsize, int channels, int height, int width,
+void max_pool2d_forward(float *input, float *output, float *mask, int batchsize, int channels, int height, int width,
                            int ksize, int pad, int stride, int height_out, int width_out) {
     int n = batchsize * channels * height_out * width_out;
-    max_pooling2d_forward_kernel<<<CudaGetBlocks(n), kCudaThreadsNum>>>(n, input, output, mask, height, width,
+    max_pool2d_forward_kernel<<<CudaGetBlocks(n), kCudaThreadsNum>>>(n, input, output, mask, height, width,
                                                                         height_out, width_out, ksize, pad, stride);
     cudaDeviceSynchronize();
 }
 
-void max_pooling2d_backward(float *input, float *output, float *mask, int batchsize, int channels, int height, int width,
+void max_pool2d_backward(float *input, float *output, float *mask, int batchsize, int channels, int height, int width,
                             int ksize, int pad, int stride, int height_out, int width_out,
                             float *grad_output, float *grad_input) {
     int n = batchsize * channels * height_out * width_out;
-    max_pooling2d_backward_kernel<<<CudaGetBlocks(n), kCudaThreadsNum>>>(n, input, output, mask, height, width,
+    max_pool2d_backward_kernel<<<CudaGetBlocks(n), kCudaThreadsNum>>>(n, input, output, mask, height, width,
                                                                          height_out, width_out, ksize, pad, stride,
                                                                          grad_output, grad_input);
     cudaDeviceSynchronize();

@@ -24,10 +24,12 @@ void init_tensor(pybind11::module &m) {
         .def("numel", &Tensor::numel)
         .def("dim", &Tensor::dim)
 
-        .def_static("from_vector", &Tensor::from_vector, "data"_a, "shape"_a, "device"_a)
-        .def_static("from_vector", [](const std::vector<float> &data, const std::vector<int> &shape) {
-            return Tensor::from_vector(data, shape, Device::get_default_device());
-        })
+        .def_static("from_vector", &Tensor::from_vector, "data"_a, "shape"_a, "device"_a=Device::default_device)
+
+        .def_static("zeros", &Tensor::zeros, "shape"_a, "device"_a=Device::default_device)
+        .def_static("zeros_like", &Tensor::zeros_like, "other"_a)
+        .def_static("fill", &Tensor::fill, "scalar"_a, "shape"_a, "device"_a=Device::default_device)
+        .def_static("fill_like", &Tensor::fill_like, "scalar"_a, "other"_a)
 
         .def("__eq__", &Tensor::operator==)
         .def("__ne__", &Tensor::operator!=)
@@ -59,6 +61,10 @@ void init_tensor(pybind11::module &m) {
             }
             return new Tensor(Tensor::from_vector(data, shape, device));
         }), "array"_a, "device"_a = std::optional<Device>())
+        .def(pybind11::init([](float &scalar, std::optional<Device> device_) {
+            Device device = device_.value_or(Device::get_default_device());
+            return new Tensor(Tensor::from_vector({scalar}, {}, device));
+        }), "scalar"_a, "device"_a = std::optional<Device>())
 
         .def("numpy", [](Tensor &instance) {
             int numel = instance.numel();

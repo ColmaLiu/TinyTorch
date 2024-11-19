@@ -1,14 +1,14 @@
-#include "op/max_pooling2d.h"
+#include "op/max_pool2d.h"
 
 #include <tuple>
 
 #include "utils/utils.h"
 #include "tensor/tensor.cuh"
-#include "backend/cuda/max_pooling2d.cuh"
+#include "backend/cuda/max_pool2d.cuh"
 
 namespace TinyTorch {
 
-std::tuple<Tensor, Tensor> max_pooling2d_forward(const Tensor &input, int kernel_size, int stride, int padding) {
+std::tuple<Tensor, Tensor> max_pool2d_forward(const Tensor &input, int kernel_size, int stride, int padding) {
     ASSERT(input.device.is_cuda());
     ASSERT(input.dim() == 4);
     ASSERT(kernel_size == stride);
@@ -21,14 +21,14 @@ std::tuple<Tensor, Tensor> max_pooling2d_forward(const Tensor &input, int kernel
     Tensor output({batchsize, channels, height_out, width_out}, input.device);
     Tensor mask(input.shape, input.device);
     if (input.device.is_cuda()) {
-        Backend::CUDA::max_pooling2d_forward(input.data, output.data, mask.data,
+        Backend::CUDA::max_pool2d_forward(input.data, output.data, mask.data,
                                              batchsize, channels, height, width,
                                              kernel_size, padding, stride, height_out, width_out);
     } else {}
     return std::make_tuple(std::move(output), std::move(mask));
 }
 
-Tensor max_pooling2d_backward(const Tensor &mask, const Tensor &grad_output, int kernel_size, int stride, int padding) {
+Tensor max_pool2d_backward(const Tensor &mask, const Tensor &grad_output, int kernel_size, int stride, int padding) {
     ASSERT(mask.device.is_cuda() && grad_output.device.is_cuda());
     ASSERT(mask.dim() == 4 && grad_output.dim() == 4);
     ASSERT(mask.shape[0] == grad_output.shape[0] &&
@@ -44,7 +44,7 @@ Tensor max_pooling2d_backward(const Tensor &mask, const Tensor &grad_output, int
            grad_output.shape[3] == width_out);
     Tensor grad_input(mask.shape, mask.device);
     if (mask.device.is_cuda()) {
-        Backend::CUDA::max_pooling2d_backward(nullptr, nullptr, mask.data,
+        Backend::CUDA::max_pool2d_backward(nullptr, nullptr, mask.data,
                                               batchsize, channels, height, width,
                                               kernel_size, padding, stride, height_out, width_out,
                                               grad_output.data, grad_input.data);

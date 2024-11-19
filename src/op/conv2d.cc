@@ -57,9 +57,9 @@ std::tuple<Tensor, Tensor, Tensor> conv2d_backward(const Tensor &input, const Te
            grad_output.shape[1] == channels_out &&
            grad_output.shape[2] == height_out &&
            grad_output.shape[3] == width_out);
-    Tensor grad_input(input.shape, input.device);
-    Tensor grad_weight(weight.shape, input.device);
-    Tensor grad_bias({channels_out}, input.device);
+    Tensor grad_input = Tensor::zeros_like(input);
+    Tensor grad_weight = Tensor::zeros_like(weight);
+    Tensor grad_bias = Tensor::zeros({channels_out}, input.device);
     if (input.device.is_cuda()) {
         Backend::CUDA::conv2d_backward(input.data, nullptr, weight.data, nullptr,
                                        batchsize, channels_in, channels_out, height, width,
