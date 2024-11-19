@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <vector>
+#include <random>
 
 #include <cuda_runtime.h>
 
@@ -15,6 +16,7 @@
 
 #include "basic/device.h"
 #include "basic/mem.cuh"
+#include "basic/random.h"
 #include "op/tensor_binary_op.h"
 #include "op/tensor_eq.h"
 #include "op/tensor_scalar_op.h"
@@ -140,6 +142,31 @@ Tensor Tensor::fill(const float &scalar, const std::vector<int> &shape, Device d
 }
 Tensor Tensor::fill_like(const float &scalar, const Tensor &other) {
     return fill(scalar, other.shape, other.device);
+}
+
+Tensor Tensor::rand(const std::vector<int> &shape, Device device) {
+    Tensor ret(shape, Device::cpu());
+    int numel = ret.numel();
+    std::uniform_real_distribution<double> dis(0, 1);
+    for (int i = 0; i < numel; i++) {
+        ret.data[i] = dis(gen);
+    }
+    return ret.to(device);
+}
+Tensor Tensor::rand_like(const Tensor &other) {
+    return rand(other.shape, other.device);
+}
+Tensor Tensor::randn(const std::vector<int> &shape, Device device) {
+    Tensor ret(shape, Device::cpu());
+    int numel = ret.numel();
+    std::normal_distribution<double> dis(0, 1);
+    for (int i = 0; i < numel; i++) {
+        ret.data[i] = dis(gen);
+    }
+    return ret.to(device);
+}
+Tensor Tensor::randn_like(const Tensor &other) {
+    return randn(other.shape, other.device);
 }
 
 Tensor::~Tensor() {

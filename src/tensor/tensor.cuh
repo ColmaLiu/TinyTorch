@@ -34,6 +34,11 @@ public:
     static Tensor fill(const float &scalar, const std::vector<int> &shape, Device device = Device::default_device);
     static Tensor fill_like(const float &scalar, const Tensor &other);
 
+    static Tensor rand(const std::vector<int> &shape, Device device = Device::default_device);
+    static Tensor rand_like(const Tensor &other);
+    static Tensor randn(const std::vector<int> &shape, Device device = Device::default_device);
+    static Tensor randn_like(const Tensor &other);
+
     ~Tensor();
 
     bool operator==(const Tensor &other) const;

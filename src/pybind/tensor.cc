@@ -31,6 +31,11 @@ void init_tensor(pybind11::module &m) {
         .def_static("fill", &Tensor::fill, "scalar"_a, "shape"_a, "device"_a=Device::default_device)
         .def_static("fill_like", &Tensor::fill_like, "scalar"_a, "other"_a)
 
+        .def_static("rand", &Tensor::rand, "shape"_a, "device"_a=Device::default_device)
+        .def_static("rand_like", &Tensor::rand_like, "other"_a)
+        .def_static("randn", &Tensor::rand, "shape"_a, "device"_a=Device::default_device)
+        .def_static("randn_like", &Tensor::rand_like, "other"_a)
+
         .def("__eq__", &Tensor::operator==)
         .def("__ne__", &Tensor::operator!=)
 
