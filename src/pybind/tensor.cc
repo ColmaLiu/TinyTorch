@@ -12,7 +12,7 @@ using namespace pybind11::literals;
 namespace py = pybind11;
 
 void init_tensor(pybind11::module &m) {
-    py::class_<Tensor>(m, "Tensor")
+    py::class_<Tensor>(m, "TensorBase")
         .def(py::init<const std::vector<int> &, Device>(),
              "shape"_a, "device"_a = Device::default_device)
         .def(py::init<const Tensor &>())

@@ -13,7 +13,13 @@ CMakeUserPresets.json
 
 /.vscode
 /build
+/__pycache__
 *.egg-info
 tinytorch.cpython-310-x86_64-linux-gnu.so
 
-/mytest
+/data
+report.md
+dataset.py
+exp*/
+log
+train*.py
