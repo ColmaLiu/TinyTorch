@@ -16,10 +16,10 @@ def test_relu():
     output_gt = F.relu(input)
     output_gt.backward(grad_output)
 
-    output_gt = tinytorch.Tensor(output_gt.detach().numpy())
-    grad_input_gt = tinytorch.Tensor(input.grad.detach().numpy())
-    input = tinytorch.Tensor(input.detach().numpy())
-    grad_output = tinytorch.Tensor(grad_output.detach().numpy())
+    output_gt = tinytorch.TensorBase(output_gt.detach().numpy())
+    grad_input_gt = tinytorch.TensorBase(input.grad.detach().numpy())
+    input = tinytorch.TensorBase(input.detach().numpy())
+    grad_output = tinytorch.TensorBase(grad_output.detach().numpy())
 
     output_res = tinytorch.op.relu_forward(input)
     grad_input_res = tinytorch.op.relu_backward(input, grad_output)

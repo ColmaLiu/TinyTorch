@@ -17,10 +17,10 @@ def test_cross_entropy():
     loss_gt = F.cross_entropy(input, target)
     loss_gt.backward()
 
-    grad_input_gt = tinytorch.Tensor(input.grad.detach().numpy())
-    input = tinytorch.Tensor(input.detach().numpy())
-    target = tinytorch.Tensor(target.float().detach().numpy())
-    loss_gt = tinytorch.Tensor(loss_gt.item())
+    grad_input_gt = tinytorch.TensorBase(input.grad.detach().numpy())
+    input = tinytorch.TensorBase(input.detach().numpy())
+    target = tinytorch.TensorBase(target.float().detach().numpy())
+    loss_gt = tinytorch.TensorBase(loss_gt.item())
 
     prob_res, loss_res = tinytorch.op.cross_entropy_forward(input, target)
     grad_input_res = tinytorch.op.cross_entropy_backward(prob_res, target)

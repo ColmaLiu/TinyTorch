@@ -3,6 +3,8 @@ from typing import (
     Iterator,
 )
 
+import tinytorch
+
 from basic import Tensor
 
 class Optimizer:
@@ -20,22 +22,28 @@ class Optimizer:
             param.inputs = []
 
 class SGD(Optimizer):
-    def __init__(self, get_params, lr):
+    def __init__(self, get_params, lr, momentum: float = 0):
         super().__init__(get_params)
         self.lr = lr
+        self.momentum = momentum
+        self._init_momentum()
+    
+    def _init_momentum(self):
+        if self.momentum != 0:
+            self.momentum_buffer_list = []
+            for param in self.get_params():
+                self.momentum_buffer_list.append(
+                    tinytorch.TensorBase.zeros_like(param.realize_cached_data())
+                )
 
     def step(self):
-        for param in self.get_params():
+        for i, param in enumerate(self.get_params()):
             param.realize_cached_data()
-            param.cached_data -= param.grad.realize_cached_data() * self.lr
-
-# from module import Module
-# import tinytorch
-
-# tinytorch.Device.set_default_device(tinytorch.Device.cuda())
-# model = Module()
-# optimizer = SGD(model.parameters, 0.1)
-# print(model.x.op)
-# # print(model.x.grad)
-# optimizer.zero_grad()
-# print(model.x.op)
+            if self.momentum != 0:
+                self.momentum_buffer_list[i] = (
+                    self.momentum_buffer_list[i] * self.momentum +
+                    param.grad.realize_cached_data()
+                )
+                param.cached_data -= self.momentum_buffer_list[i] * self.lr
+            else:
+                param.cached_data -= param.grad.realize_cached_data() * self.lr

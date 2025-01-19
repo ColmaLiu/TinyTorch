@@ -44,7 +44,7 @@ std::tuple<Tensor, Tensor, Tensor> linear_backward(
     int out_features = weight.shape[1];
     Tensor grad_input(input.shape, input.device);
     Tensor grad_weight(weight.shape, input.device);
-    Tensor grad_bias({out_features}, input.device);
+    Tensor grad_bias = Tensor::zeros({out_features}, input.device);
     if (input.device.is_cuda()) {
         Backend::CUDA::linear_backward(input.data, nullptr, weight.data, nullptr,
                                        batchsize, in_features, out_features,

@@ -44,8 +44,8 @@ void sumcol(const float *X, float *Y, const int m, const int n) {
     cublasHandle_t handle;
     cublasCreate(&handle);
     const float alp = 1.0f;
-    for (int i = 0; i < n; i++) {
-        cublasSaxpy(handle, m, &alp, X + i, n, Y + i, 0);
+    for (int i = 0; i < m; i++) {
+        cublasSaxpy(handle, n, &alp, X + i * n, 1, Y, 1);
     }
     cublasDestroy(handle);
 }

@@ -11,15 +11,10 @@ CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
 
-/.vscode
+/.*
 /build
 /__pycache__
 *.egg-info
 tinytorch.cpython-310-x86_64-linux-gnu.so
 
 /data
-report.md
-dataset.py
-exp*/
-log
-train*.py

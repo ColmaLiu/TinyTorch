@@ -26,10 +26,10 @@ def test_max_pool2d():
     output_gt = F.max_pool2d(input, KERNEL_SIZE, STRIDE, PADDING)
     output_gt.backward(grad_output)
 
-    output_gt = tinytorch.Tensor(output_gt.detach().numpy())
-    grad_input_gt = tinytorch.Tensor(input.grad.detach().numpy())
-    input = tinytorch.Tensor(input.detach().numpy())
-    grad_output = tinytorch.Tensor(grad_output.detach().numpy())
+    output_gt = tinytorch.TensorBase(output_gt.detach().numpy())
+    grad_input_gt = tinytorch.TensorBase(input.grad.detach().numpy())
+    input = tinytorch.TensorBase(input.detach().numpy())
+    grad_output = tinytorch.TensorBase(grad_output.detach().numpy())
 
     output_res, mask = tinytorch.op.max_pool2d_forward(input, KERNEL_SIZE, STRIDE, PADDING)
     grad_input_res = tinytorch.op.max_pool2d_backward(mask, grad_output, KERNEL_SIZE, STRIDE, PADDING)
