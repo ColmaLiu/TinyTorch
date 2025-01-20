@@ -16,11 +16,9 @@ def toTensor(x: torch.Tensor):
     return tinytorch.TensorBase(x.float().detach().numpy())
 
 def main():
-    print(trainset[0])
-    return
     # Example with torch.utils.data.Dataloader
-    for inputs, labels in trainloader:
-        inputs, labels = toTensor(inputs), toTensor(labels)
+    # for inputs, labels in trainloader:
+    #     inputs, labels = toTensor(inputs), toTensor(labels)
 
     # Example without torch.utils.data.Dataloader
     # batchsize = 64
@@ -40,7 +38,7 @@ def main():
     #     train[i] = (toTensor(imgs), toTensor(targets))
     #     # print(type(train[i][0]), train[i][0].shape)
     #     # print(type(train[i][1]), train[i][1].shape)
-    # pass
+    pass
 
 if __name__ == "__main__":
     main()

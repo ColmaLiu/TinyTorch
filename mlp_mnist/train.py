@@ -53,6 +53,9 @@ def main():
 
             output = model(inputs)
             test_loss += criterion(output, labels).realize_cached_data().numpy()
+            # Nothing is related to the training process and auto differentiation here,
+            # and it is just some data processing,
+            # so I use some PyTorch functions to handle it.
             output = torch.tensor(output.realize_cached_data().numpy())
             pred = output.data.max(1, keepdim=True)[1]
             correct += pred.eq(labels_pt.data.view_as(pred)).sum()

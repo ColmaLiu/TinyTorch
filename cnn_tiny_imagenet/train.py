@@ -12,10 +12,10 @@ class Model(Module):
         self.pool1 = MaxPool2d(2)
         self.pool2 = MaxPool2d(3)
         self.pool3 = MaxPool2d(2)
-        self.conv1 = Conv2d(3, 8, 5, padding=2)
-        self.conv2 = Conv2d(8, 8, 3, padding=0)
-        self.conv3 = Conv2d(8, 16, 3, padding=0)
-        self.fc1 = Linear(16 * 4 * 4, 200)
+        self.conv1 = Conv2d(3, 16, 5, padding=2)
+        self.conv2 = Conv2d(16, 16, 3, padding=0)
+        self.conv3 = Conv2d(16, 32, 3, padding=0)
+        self.fc1 = Linear(32 * 4 * 4, 200)
 
     def forward(self, x):
         x = self.pool1(relu(self.conv1(x)))
@@ -61,6 +61,9 @@ def main():
 
             output = model(inputs)
             test_loss += criterion(output, labels).realize_cached_data().numpy()
+            # Nothing is related to the training process and auto differentiation here,
+            # and it is just some data processing,
+            # so I use some PyTorch functions to handle it.
             output = torch.tensor(output.realize_cached_data().numpy())
             pred = output.data.max(1, keepdim=True)[1]
             correct += pred.eq(labels_pt.data.view_as(pred)).sum()

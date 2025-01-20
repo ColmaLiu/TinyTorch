@@ -48,8 +48,10 @@ def toTensor(x: torch.Tensor):
     return tinytorch.TensorBase(x.float().detach().numpy())
 
 def main():
-    for data in trainloader:
-        image, label = data.values()
+    # Example for usage
+    # for data in trainloader:
+    #     image, label = data.values()
+    pass
 
 if __name__ == "__main__":
     main()
